@@ -1,0 +1,37 @@
+{
+// Python
+    "python.pythonPath": "/home/thiago/.pyenv/versions/3.7.1/bin/python",
+    "python.linting.pylintPath": "/home/thiago/.pyenv/versions/3.7.1/bin/pylint",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintArgs": [
+        "--disable=missing-docstring"
+    ],
+
+//Commonly Used
+
+    "files.exclude": {
+        "**/.git": false,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/.directory": true
+    },
+
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/**": true,
+        "**/__pycache__/**": true
+    },
+
+//Global
+
+    "explorer.openEditors.visible": 0,
+    "breadcrumbs.enabled": true,
+    "editor.rulers": [
+        100,
+    ],
+    "files.trimTrailingWhitespace": true
+}
