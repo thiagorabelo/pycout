@@ -56,21 +56,24 @@ def endl(stream):
 
 # TODO: http://www.cplusplus.com/reference/iomanip/setfill/
 def setfill(stream):
-    raise NotImplementedError("Not yet implemented.")
-
-
-# TODO: http://www.cplusplus.com/reference/iomanip/setprecision/
-# TODO: implement std::fixed?
-def setprecision(stream):
+    # Reseta após um "\n", endl
     raise NotImplementedError("Not yet implemented.")
 
 
 # TODO: http://www.cplusplus.com/reference/iomanip/setw/
 def setw(stream):
+    # Reseta após um "\n", endl
+    raise NotImplementedError("Not yet implemented.")
+
+
+# TODO: http://www.cplusplus.com/reference/iomanip/setprecision/
+# TODO: implement std::fixed? http://www.cplusplus.com/reference/ios/fixed/
+def setprecision(stream):
     raise NotImplementedError("Not yet implemented.")
 
 
 # TODO: http://www.cplusplus.com/reference/iomanip/
+# TODO: http://www.cplusplus.com/reference/ios/basic_ios/
 
 
 if __name__ == '__main__':
