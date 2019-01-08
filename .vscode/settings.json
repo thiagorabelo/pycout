@@ -1,7 +1,7 @@
 {
 // Python
-    "python.pythonPath": "${env:HOME}/.pyenv/versions/3.6.6/bin/python",
-    "python.linting.pylintPath": "${env:HOME}/.pyenv/versions/3.6.6/bin/pylint",
+    "python.pythonPath": "${env:HOME}/.pyenv/versions/3.7.2/bin/python",
+    "python.linting.pylintPath": "${env:HOME}/.pyenv/versions/3.7.2/bin/pylint",
     "python.linting.enabled": true,
     "python.linting.pylintEnabled": true,
     "python.linting.pylintArgs": [
