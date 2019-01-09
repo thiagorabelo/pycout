@@ -12,6 +12,8 @@ class OStream(object):  # pylint: disable=useless-object-inheritance
     def __init__(self, output=stdout):
         self._output = output
 
+    # TODO: Ver se fica mais interessante esse trabalho ser feito por um "formatador", sendo
+    #       que a instância tem um formatador padrão.
     def _to_string(self, stream):  # pylint: disable=no-self-use
         return '%s' % stream
 
