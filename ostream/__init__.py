@@ -6,7 +6,7 @@ Módulo que contém uma classe que simula a classe padrão ostream do C++
 
 from sys import stdout
 
-from iomanip import DefaultOSManipulator, PrecicionManip, FillManipulator
+from .base_ostream import DefaultOSManipulator, PrecicionManip, FillManipulator
 
 
 class OStream(PrecicionManip, FillManipulator):  # pylint: disable=useless-object-inheritance
