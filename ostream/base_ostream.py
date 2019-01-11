@@ -1,3 +1,7 @@
+import abc
+import numbers
+
+
 class OSManipulator(metaclass=abc.ABCMeta):  # pylint: disable=too-few-public-methods,
     @abc.abstractmethod                      #                 useless-object-inheritance
     def to_string(self, obj):
