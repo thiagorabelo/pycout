@@ -1,30 +1,18 @@
-import abc
 import numbers
 
 
-class OSManipulator(metaclass=abc.ABCMeta):  # pylint: disable=too-few-public-methods,
-    @abc.abstractmethod                      #                 useless-object-inheritance
-    def to_string(self, obj):
-        pass
-
-
-class DefaultOSManipulator(OSManipulator):  # pylint: disable=too-few-public-methods
-    def to_string(self, obj):
-        return '%s' % obj
-
-
-class PrecicionManip(OSManipulator):  # pylint: disable=too-few-public-methods
+class PrecicionManip(object):  # pylint: disable=too-few-public-methods,useless-object-inheritance
 
     def __init__(self, prec):
         self.prec = prec
 
-    def to_string(self, obj):
+    def _proccess_numbers(self, obj):
         if not isinstance(obj, numbers.Integral) and isinstance(obj, numbers.Real):
             # TODO: Eu sei que issa não é a forma certa. Ajeitar!
             # TODO: Implementacao do fixed depende de ajeitar essa funcionalidade.
             sformat = '%%.%df' % self.prec
             return sformat % obj
-        return super(PrecicionManip, self).to_string(obj)
+        return '%s' % obj
 
     # TODO: http://www.cplusplus.com/reference/ios/ios_base/precision/
     # TODO: implement std::fixed? http://www.cplusplus.com/reference/ios/fixed/
@@ -37,13 +25,12 @@ class PrecicionManip(OSManipulator):  # pylint: disable=too-few-public-methods
         return old
 
 
-class FillManipulator(DefaultOSManipulator):  # pylint: disable=too-few-public-methods
+class FillManipulator(object):  # pylint: disable=too-few-public-methods,useless-object-inheritance
 
     width_ = 0
     fill_ = ' '
 
-    def to_string(self, obj):
-        obj = super(FillManipulator, self).to_string(obj)
+    def _fill_str(self, obj):
         size = self.width_ - len(obj)
 
         if not self.width_ or size <= 0:

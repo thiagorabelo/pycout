@@ -3,10 +3,10 @@
 Módulo que contém uma classe que simula a classe padrão ostream do C++
 """
 
-
+import numbers
 from sys import stdout
 
-from .base_ostream import DefaultOSManipulator, PrecicionManip, FillManipulator
+from .base_ostream import PrecicionManip, FillManipulator
 
 
 class OStream(PrecicionManip, FillManipulator):  # pylint: disable=useless-object-inheritance
@@ -15,18 +15,29 @@ class OStream(PrecicionManip, FillManipulator):  # pylint: disable=useless-objec
         self._output = output
         super(OStream, self).__init__(6)
 
+    def _to_string(self, obj):
+        return '%s' % obj
+
+    def _proccess(self, obj):
+        if isinstance(obj, numbers.Real) and not isinstance(obj, numbers.Integral):
+            obj = self._proccess_numbers(obj)
+
+        if self.width_:
+            return self._fill_str(self._to_string(obj))
+
+        return self._to_string(obj)
+
     def __lshift__(self, stream):
-        if callable(stream):
-            return stream(self)
-        self._output.write(self.to_string(stream))
-        return self
+        return self.write(stream)
 
     def write(self, stream):
-        self._output.write(stream)
+        if callable(stream):
+            return stream(self)
+        self._output.write(self._proccess(stream))
         return self
 
     def put(self, char):
-        self._output.write(self.to_string(char)[0])
+        self._output.write(self._proccess(char)[0])
         return self
 
     def flush(self):
