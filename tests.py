@@ -39,12 +39,12 @@ class TestOStream(unittest.TestCase):
         # pylint: disable=pointless-statement,expression-not-assigned
         self.cout << "ABCD" << "\n" \
                   << setfill("-") << setw(4) \
-                  << "EF\n" \
-                  << "IJKL\n" \
+                  << "EF" << "\n" \
+                  << "IJKL" << "\n" \
                   << setfill("-") << setw(4) \
                   << "MNOPQRS\n" \
                   << setfill("-") << setw(4) \
-                  << "TU\nVXZ"
+                  << "TU\nVWXYZ"
 
         string = "ABCD\n" \
                  "--EF\n" \
