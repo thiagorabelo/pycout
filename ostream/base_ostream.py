@@ -44,19 +44,10 @@ class FillManipulator(DefaultOSManipulator):  # pylint: disable=too-few-public-m
 
     def to_string(self, obj):
         obj = super(FillManipulator, self).to_string(obj)
+        size = self.width_ - len(obj)
 
-        if not self.width_:
+        if not self.width_ or size <= 0:
             return obj
-
-        try:
-            idx = obj.index('\n')
-            size = self.width_ - idx
-
-            if idx == 0:
-                return obj
-
-        except ValueError:
-            size = self.width_ - len(obj)
 
         out = (self.fill_ * size) + obj
 
