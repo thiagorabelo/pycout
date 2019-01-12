@@ -3,18 +3,63 @@ from typing import Union, Text
 
 
 class PrecicionManip(object):  # pylint: disable=too-few-public-methods,useless-object-inheritance
+    """
+    cout << "Lá vai\n"
+         << f << "\n"
+         << setprecision(6) << f << "\n"
+         << setprecision(5) << f << "\n"
+         << setprecision(4) << f << "\n"
+         << setprecision(3) << f << "\n"
+         << setprecision(2) << f << "\n"
+         << setprecision(1) << f << "\n";
+
+    # Ouput:
+
+    Lá vai
+    123.456
+    123.456
+    123.46
+    123.5
+    123
+    1.2e+02
+    1e+02
+
+    #############
+
+    # Com fixed
+
+    cout << "Lá vai\n"
+         << f << "\n"
+         << fixed
+         << setprecision(6) << f << "\n"
+         << setprecision(5) << f << "\n"
+         << setprecision(4) << f << "\n"
+         << setprecision(3) << f << "\n"
+         << setprecision(2) << f << "\n"
+         << setprecision(1) << f << "\n";
+
+    Lá vai
+    123.456
+    123.456001
+    123.45600
+    123.4560
+    123.456
+    123.46
+    123.5
+    """
 
     prec: int = 6
 
     def _proccess_numbers(self, value: float) -> Text:
         if not isinstance(value, numbers.Integral) and isinstance(value, numbers.Real):
             # TODO: Eu sei que issa não é a forma certa. Ajeitar!
-            # TODO: Implementacao do fixed depende de ajeitar essa funcionalidade.
+            # TODO: Implementacao do 'fixed' e  depende de ajeitar essa funcionalidade.
             sformat = '%%.%df' % self.prec
             return sformat % value
         return '%s' % value
 
-    # TODO: implement std::fixed? http://www.cplusplus.com/reference/ios/fixed/
+    # TODO: implement std::{fixed, scientific, hexfloat, defaultfloat}?
+    #       https://en.cppreference.com/w/cpp/io/manip/fixed
     def precision(self, prec: Union[int, None] = None) -> int:
         old = self.prec
 
