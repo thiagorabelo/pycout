@@ -10,7 +10,7 @@ class TestOStream(unittest.TestCase):
 
     def setUp(self):
         self.output_stream = StringIO()
-        self.cout = OStream(output=self.output_stream)
+        self.cout = OStream(output_stream=self.output_stream)
 
     def tearDown(self):
         self.cout = None
@@ -21,9 +21,9 @@ class TestOStream(unittest.TestCase):
 
     def test_basic(self):
         # pylint: disable=pointless-statement,expression-not-assigned
-        self.cout << "Olá mundo" << " " << "cruel!" << endl
+        self.cout << "Olá mundo" << " " << "cruel!" << endl << ends
 
-        self.assertEqual("Olá mundo cruel!\n", self._get_stream_value())
+        self.assertEqual("Olá mundo cruel!\n\0", self._get_stream_value())
 
     def _test_numbers(self):
         # pylint: disable=pointless-statement,expression-not-assigned

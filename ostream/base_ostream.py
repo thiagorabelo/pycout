@@ -1,22 +1,21 @@
 import numbers
+from typing import Union, Text
 
 
 class PrecicionManip(object):  # pylint: disable=too-few-public-methods,useless-object-inheritance
 
-    def __init__(self, prec):
-        self.prec = prec
+    prec: int = 6
 
-    def _proccess_numbers(self, obj):
-        if not isinstance(obj, numbers.Integral) and isinstance(obj, numbers.Real):
+    def _proccess_numbers(self, value: float) -> Text:
+        if not isinstance(value, numbers.Integral) and isinstance(value, numbers.Real):
             # TODO: Eu sei que issa não é a forma certa. Ajeitar!
             # TODO: Implementacao do fixed depende de ajeitar essa funcionalidade.
             sformat = '%%.%df' % self.prec
-            return sformat % obj
-        return '%s' % obj
+            return sformat % value
+        return '%s' % value
 
-    # TODO: http://www.cplusplus.com/reference/ios/ios_base/precision/
     # TODO: implement std::fixed? http://www.cplusplus.com/reference/ios/fixed/
-    def precision(self, prec=None):
+    def precision(self, prec: Union[int, None] = None) -> int:
         old = self.prec
 
         if prec:
@@ -27,23 +26,23 @@ class PrecicionManip(object):  # pylint: disable=too-few-public-methods,useless-
 
 class FillManipulator(object):  # pylint: disable=too-few-public-methods,useless-object-inheritance
 
-    width_ = 0
-    fill_ = ' '
+    width_: int = 0
+    fill_: Text = ' '
 
-    def _fill_str(self, obj):
-        size = self.width_ - len(obj)
+    def _fill_str(self, value: Text) -> Text:
+        size = self.width_ - len(value)
 
         if not self.width_ or size <= 0:
-            return obj
+            return value
 
-        out = (self.fill_ * size) + obj
+        out = (self.fill_ * size) + value
 
         self.width_ = 0
         self.fill_ = ' '
 
         return out
 
-    def width(self, width=None):
+    def width(self, width: Union[int, None] = None) -> int:
         old = self.width_
 
         if width:
@@ -51,7 +50,7 @@ class FillManipulator(object):  # pylint: disable=too-few-public-methods,useless
 
         return old
 
-    def fill(self, fill=None):
+    def fill(self, fill: Union[Text, None] = None) -> Text:
         old = self.fill_
 
         if fill:

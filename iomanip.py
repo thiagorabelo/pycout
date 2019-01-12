@@ -1,8 +1,10 @@
+from typing import Text, Callable
 
+from ostream import OStream
 
 # http://www.cplusplus.com/reference/iomanip/setfill/
-def setfill(fill):
-    def set_fill(stream):
+def setfill(fill: Text) -> Callable[[OStream], OStream]:
+    def set_fill(stream: OStream):
         stream.fill(fill)
         return stream
 
@@ -10,8 +12,8 @@ def setfill(fill):
 
 
 # http://www.cplusplus.com/reference/iomanip/setw/
-def setw(width):
-    def set_w(stream):
+def setw(width: int):
+    def set_w(stream) -> Callable[[OStream], OStream]:
         stream.width(width)
         return stream
 
@@ -21,7 +23,7 @@ def setw(width):
 # TODO: implement std::fixed? http://www.cplusplus.com/reference/ios/fixed/
 # http://www.cplusplus.com/reference/iomanip/setprecision/
 def setprecision(prec):
-    def set_precision(stream):
+    def set_precision(stream) -> Callable[[OStream], OStream]:
         stream.precision(prec)
         return stream
 
