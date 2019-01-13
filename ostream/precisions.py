@@ -51,6 +51,16 @@ class Scientific(PrecisionHandler):
          << setprecision(2) << f << "\n "
          << setprecision(1) << f << endl;
 
+    # Output:
+
+    Lá vai = 199.999
+    199.999
+    200
+    200
+    200
+    2e+02
+    2e+02
+
 
     #############
 
@@ -66,8 +76,7 @@ class Scientific(PrecisionHandler):
          << setprecision(2) << f << "\n"
          << setprecision(1) << f << "\n";
 
-    Lá vai
-    123.456
+    Lá vai = 123.456
     123.456001
     123.45600
     123.4560
@@ -110,32 +119,17 @@ class Scientific(PrecisionHandler):
         signal = '-' if value < 0.0 else ''
 
         integer, decimal = self._split(str_value)
+        integer_size, decimal_size = len(integer), len(decimal)
 
-        if self._precision < len(integer) + len(decimal):
-            while decimal:
-                if self._precision >= len(integer) + len(decimal):
-                    return f'{signal}{integer}.{decimal}'
-                decimal = self._strip_right(decimal[:-1])
+        if integer_size <= self._precision:
+            decimal_size = self._precision - integer_size
+            str_format = '%%.%df' % decimal_size
+            return str_format % value
 
-            if self._precision >= len(integer):
-                return str(integer)
-
-            decimal = integer[1:]
-            integer = integer[0]
-            base = len(decimal)
-
-            while decimal and self._precision < len(integer) + len(decimal):
-                decimal = decimal[:-1]
-
-            if decimal:
-                return f'{signal}{integer}.{decimal}e+{base}'
-            return f'{signal}{integer}e+{base}'
-
-        return f'{signal}{integer}.{decimal}'
+        return str(value)
 
 
 if __name__ == '__main__':
-    print(Scientific(2).handle(0.123))
     print(Scientific(6).handle(123.456))
     print(Scientific(5).handle(123.456))
     print(Scientific(4).handle(123.456))
