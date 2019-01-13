@@ -32,7 +32,7 @@ class TestOStream(unittest.TestCase):
 
     def test_setprecicion(self):
         # pylint: disable=pointless-statement,expression-not-assigned
-        self.cout << setprecision(2) << 2.0/3.0
+        self.cout << setprecision(3) << 2.0/3.0
         self.assertEqual("0.67", self._get_stream_value())
 
     def test_set_fill_width(self):

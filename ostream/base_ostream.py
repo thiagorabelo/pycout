@@ -1,6 +1,7 @@
 import abc
-import numbers
-from typing import Union, Text, Any
+from typing import Union, Text, Any, Type
+
+from .precisions import PrecisionHandler, Scientific
 
 
 class Manip(metaclass=abc.ABCMeta):  # pylint: disable=too-few-public-methods
@@ -11,29 +12,25 @@ class Manip(metaclass=abc.ABCMeta):  # pylint: disable=too-few-public-methods
 
 class PrecicionManip(Manip):  # pylint: disable=too-few-public-methods
 
+    _prec_handler_class: Type[PrecisionHandler] = Scientific
+    _prec_handler: PrecisionHandler = _prec_handler_class(6)
+
     @abc.abstractmethod
     def _proccess(self, value):
         pass
 
-    prec: int = 6
-
     def _proccess_numbers(self, value: float) -> Text:
-        if not isinstance(value, numbers.Integral) and isinstance(value, numbers.Real):
-            # TODO: Eu sei que issa não é a forma certa. Ajeitar!
-            # TODO: Implementacao do 'fixed' e  depende de ajeitar essa funcionalidade.
-            sformat = '%%.%df' % self.prec
-            return sformat % value
-        return '%s' % value
+        return self._prec_handler.handle(value)
 
     # TODO: implement std::{fixed, scientific, hexfloat, defaultfloat}?
     #       https://en.cppreference.com/w/cpp/io/manip/fixed
     def precision(self, prec: Union[int, None] = None) -> int:
-        old = self.prec
+        old = self._prec_handler
 
         if prec:
-            self.prec = prec
+            self._prec_handler = self._prec_handler_class(prec)
 
-        return old
+        return old.precision
 
 
 class FillManipulator(Manip):  # pylint: disable=too-few-public-methods
@@ -73,13 +70,3 @@ class FillManipulator(Manip):  # pylint: disable=too-few-public-methods
             self.fill_ = fill
 
         return old
-
-
-if __name__ == '__main__':
-    print(Scientific(6).handle(1.0))
-    print(Scientific(6).handle(123.456))
-    print(Scientific(5).handle(123.456))
-    print(Scientific(4).handle(123.456))
-    print(Scientific(3).handle(123.456))
-    print(Scientific(2).handle(123.456))
-    print(Scientific(1).handle(123.456))

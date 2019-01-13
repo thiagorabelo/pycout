@@ -2,7 +2,7 @@ import abc
 import math
 from typing import Text
 
-class PrecisionHandle(metaclass=abc.ABCMeta):
+class PrecisionHandler(metaclass=abc.ABCMeta):
     def __init__(self, precision=6):
         if precision < 1:
             raise ValueError('precision should be bigger than 0')
@@ -17,7 +17,7 @@ class PrecisionHandle(metaclass=abc.ABCMeta):
         pass
 
 
-class Scientific(PrecisionHandle):
+class Scientific(PrecisionHandler):
     """
     float f = 123.456;
     cout << "Lá vai = " << f << "\n"
@@ -76,11 +76,14 @@ class Scientific(PrecisionHandle):
     123.5
     """
 
+
+    # from: https://realpython.com/python-rounding/#rounding-half-up
     @classmethod
     def _round_half_up(cls, number, decimals=0):
         multiplier = 10 ** decimals
         return math.floor(number*multiplier + 0.5) / multiplier
 
+    # from: https://realpython.com/python-rounding/#rounding-half-away-from-zero
     @classmethod
     def _round_half_away_from_zero(cls, number, decimals=0):
         rounded_abs = cls._round_half_up(abs(number), decimals)
@@ -106,11 +109,6 @@ class Scientific(PrecisionHandle):
         str_value = '%f' % abs(value)
         signal = '-' if value < 0.0 else ''
 
-        if 0.0 < abs(value) < 1.0:
-            integer, decimal = str_value.split('.')
-            decimal = self._strip_right(decimal)
-            return f'{signal}{integer}.{decimal}'
-
         integer, decimal = self._split(str_value)
 
         if self._precision < len(integer) + len(decimal):
@@ -134,3 +132,13 @@ class Scientific(PrecisionHandle):
             return f'{signal}{integer}e+{base}'
 
         return f'{signal}{integer}.{decimal}'
+
+
+if __name__ == '__main__':
+    print(Scientific(2).handle(0.123))
+    print(Scientific(6).handle(123.456))
+    print(Scientific(5).handle(123.456))
+    print(Scientific(4).handle(123.456))
+    print(Scientific(3).handle(123.456))
+    print(Scientific(2).handle(123.456))
+    print(Scientific(1).handle(123.456))
