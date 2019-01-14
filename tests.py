@@ -2,7 +2,8 @@ import unittest
 
 from io import StringIO
 
-from ostream import OStream, endl, ends, flush
+from ostream import OStream, endl, ends
+from ostream.precisions import Scientific, Fixed
 from iomanip import setprecision, setfill, setw
 
 
@@ -53,6 +54,50 @@ class TestOStream(unittest.TestCase):
                  "TU\nVWXYZ"
 
         self.assertEqual(string, self._get_stream_value())
+
+
+class TestScentificPrecision(unittest.TestCase):
+
+    def test_123_456(self):
+        value = 123.456
+        self.assertEqual("123.456", Scientific(6).handle(value))
+        self.assertEqual("123.46", Scientific(5).handle(value))
+        self.assertEqual("123.5", Scientific(4).handle(value))
+        self.assertEqual("123", Scientific(3).handle(value))
+        self.assertEqual("1.2e+02", Scientific(2).handle(value))
+        self.assertEqual("1e+02", Scientific(1).handle(value))
+
+    def test_approximation(self):
+        value = 199.999
+        self.assertEqual("199.999", Scientific(6).handle(value))
+        self.assertEqual("200", Scientific(5).handle(value))
+        self.assertEqual("200", Scientific(4).handle(value))
+        self.assertEqual("200", Scientific(3).handle(value))
+        self.assertEqual("2e+02", Scientific(2).handle(value))
+        self.assertEqual("2e+02", Scientific(1).handle(value))
+
+
+class TestFixedPrecision(unittest.TestCase):
+
+    def test_123_456(self):
+        value = 123.456
+        self.assertEqual("123.456000", Fixed(6).handle(value))
+        self.assertEqual("123.45600", Fixed(5).handle(value))
+        self.assertEqual("123.4560", Fixed(4).handle(value))
+        self.assertEqual("123.456", Fixed(3).handle(value))
+        self.assertEqual("123.46", Fixed(2).handle(value))
+        self.assertEqual("123.5", Fixed(1).handle(value))
+        self.assertEqual("123", Fixed(0).handle(value))
+
+    def test_approximation(self):
+        value = 199.999
+        self.assertEqual("199.999000", Fixed(6).handle(value))
+        self.assertEqual("199.99900", Fixed(5).handle(value))
+        self.assertEqual("199.9990", Fixed(4).handle(value))
+        self.assertEqual("199.999", Fixed(3).handle(value))
+        self.assertEqual("200.00", Fixed(2).handle(value))
+        self.assertEqual("200.0", Fixed(1).handle(value))
+        self.assertEqual("200", Fixed(0).handle(value))
 
 
 if __name__ == '__main__':
