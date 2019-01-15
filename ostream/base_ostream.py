@@ -1,7 +1,7 @@
 import abc
 from typing import Union, Text, Any, Type
 
-from .precisions import PrecisionHandler, Scientific
+from .precisions import PrecisionHandler, DefaultPrecision
 
 
 class Manip(metaclass=abc.ABCMeta):  # pylint: disable=too-few-public-methods
@@ -12,7 +12,7 @@ class Manip(metaclass=abc.ABCMeta):  # pylint: disable=too-few-public-methods
 
 class PrecicionManip(Manip):  # pylint: disable=too-few-public-methods
 
-    _prec_handler_class: Type[PrecisionHandler] = Scientific
+    _prec_handler_class: Type[PrecisionHandler] = DefaultPrecision
     _prec_handler: PrecisionHandler = _prec_handler_class(6)
 
     @abc.abstractmethod
@@ -24,13 +24,19 @@ class PrecicionManip(Manip):  # pylint: disable=too-few-public-methods
 
     # TODO: implement std::{fixed, scientific, hexfloat, defaultfloat}?
     #       https://en.cppreference.com/w/cpp/io/manip/fixed
+    #       http://www.cplusplus.com/reference/ios/fixed/
     def precision(self, prec: Union[int, None] = None) -> int:
         old = self._prec_handler
 
-        if prec:
+        if prec is not None:
             self._prec_handler = self._prec_handler_class(prec)
 
         return old.precision
+
+    def _set_prec_handler(self, handler_class):
+        prec = self._prec_handler.precision
+        self._prec_handler_class = handler_class
+        self.precision(prec)
 
 
 class FillManipulator(Manip):  # pylint: disable=too-few-public-methods

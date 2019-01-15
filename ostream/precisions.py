@@ -54,7 +54,7 @@ class PrecisionHandler(metaclass=abc.ABCMeta):
         return integer, decimal
 
 
-class Scientific(PrecisionHandler):
+class DefaultPrecision(PrecisionHandler):
 
     # from: https://realpython.com/python-rounding/#rounding-half-up
     @classmethod
@@ -85,7 +85,7 @@ class Scientific(PrecisionHandler):
         return '%se+%02d' % (self._remove_decimals_zeros(str_value), integer_size - 1)
 
 
-class Fixed(PrecisionHandler):
+class FixedPrecision(PrecisionHandler):
     _min_precision: int = 0
 
     def handle(self, value: float) -> Text:
