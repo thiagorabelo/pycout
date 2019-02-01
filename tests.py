@@ -55,6 +55,32 @@ class TestOStream(unittest.TestCase):
 
         self.assertEqual(string, self._get_stream_value())
 
+    def test_complex_stream(self):
+        # pylint: disable=pointless-statement,expression-not-assigned
+        self.cout << "Olá mundo" \
+                  << " cruel! " \
+                  << 100.123 \
+                  << setprecision(2) << "\n" \
+                  << "depois do precision\n" \
+                  << 100.1234 \
+                  << " depois do número" \
+                  << endl \
+                  << "Hello World\n" \
+                  << setfill('*') \
+                  << setw(5) \
+                  << "a\nb" \
+                  << endl
+
+        string = "Olá mundo cruel! 100.123\n" \
+                 "depois do precision\n" \
+                 "1e+02" \
+                 " depois do número\n" \
+                 "Hello World\n" \
+                 "**a\n" \
+                 "b\n"
+
+        self.assertEqual(string, self._get_stream_value())
+
 
 class TestScentificPrecision(unittest.TestCase):
 
@@ -102,20 +128,3 @@ class TestFixedPrecision(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-#     cout = OStream()  # pylint: disable=invalid-name
-#
-#     # pylint: disable=pointless-statement, expression-not-assigned
-#     cout << "Olá mundo" \
-#          << " cruel! " \
-#          << 100.123 \
-#          << setprecision(2) << "\n" \
-#          << "depois do precision\n" \
-#          << 100.1234 \
-#          << " depois do número" \
-#          << endl \
-#          << "Hello World\n" \
-#          << setfill('*') \
-#          << setw(5) \
-#          << "a\nb" \
-#          << endl
