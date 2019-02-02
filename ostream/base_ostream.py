@@ -9,17 +9,17 @@ class Manip(metaclass=abc.ABCMeta):  # pylint: disable=too-few-public-methods
     def _proccess(self, value: Any) -> Text:
         pass
 
+    @staticmethod
+    def _to_string(value: Any) -> Text:
+        return '%s' % value
+
 
 class PrecicionManip(Manip):  # pylint: disable=too-few-public-methods
 
     _prec_handler_class: Type[PrecisionHandler] = DefaultPrecision
     _prec_handler: PrecisionHandler = _prec_handler_class(6)
 
-    @abc.abstractmethod
-    def _proccess(self, value):
-        pass
-
-    def _proccess_numbers(self, value: float) -> Text:
+    def _proccess(self, value: float) -> Text:
         return self._prec_handler.handle(value)
 
     # TODO: implement std::{fixed, scientific, hexfloat, defaultfloat}?
@@ -33,20 +33,25 @@ class PrecicionManip(Manip):  # pylint: disable=too-few-public-methods
 
         return old.precision
 
-    def _set_prec_handler(self, handler_class):
+    def _set_prec_handler(self, handler_class: Type[PrecisionHandler]) -> None:
         prec = self._prec_handler.precision
         self._prec_handler_class = handler_class
         self.precision(prec)
 
 
+# TODO: Fill deverá herdar de Quoted, e a chamada ao processamento
+#       de Quoted deverá ser feito primeiro, através da chamada ao
+#       método da classe base.
 class FillManipulator(Manip):  # pylint: disable=too-few-public-methods
 
     width_: int = 0
     fill_: Text = ' '
 
-    @abc.abstractmethod
-    def _proccess(self, value):
-        pass
+    def _proccess(self, value: Text):
+        if self.width_:
+            return self._fill_str(self._to_string(value))
+
+        return self._to_string(value)
 
     def _fill_str(self, value: Text) -> Text:
         size = self.width_ - len(value)
