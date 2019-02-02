@@ -91,3 +91,13 @@ class FixedPrecision(PrecisionHandler):
     def handle(self, value: float) -> Text:
         str_format = '%%.%df' % self._precision
         return str_format % value
+
+
+class ScientificPrecision(PrecisionHandler):
+    def handle(self, value):
+        raise NotImplementedError("Not yet implemented")
+
+
+class HexFloatPrecicion(PrecisionHandler):
+    def handle(self, value):
+        raise NotImplementedError("Not yet implemented")
