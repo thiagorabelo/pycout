@@ -93,11 +93,13 @@ class FixedPrecision(PrecisionHandler):
         return str_format % value
 
 
+# TODO: https://en.cppreference.com/w/cpp/io/manip/fixed
 class ScientificPrecision(PrecisionHandler):
     def handle(self, value):
         raise NotImplementedError("Not yet implemented")
 
 
+# TODO: https://en.cppreference.com/w/cpp/io/manip/fixed
 class HexFloatPrecicion(PrecisionHandler):
     def handle(self, value):
         raise NotImplementedError("Not yet implemented")
