@@ -1,10 +1,11 @@
 import abc
 from typing import Union, Text, Any, Type
 
-from .precisions import PrecisionHandler, DefaultPrecision
+from .handlers import PrecisionHandler, DefaultPrecision, \
+                      BaseHandler, DecHandler, HexHandler
 
 
-class Manip(metaclass=abc.ABCMeta):  # pylint: disable=too-few-public-methods
+class Manip(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def _proccess(self, value: Any) -> Text:
         pass
@@ -14,7 +15,7 @@ class Manip(metaclass=abc.ABCMeta):  # pylint: disable=too-few-public-methods
         return '%s' % value
 
 
-class PrecicionManip(Manip):  # pylint: disable=too-few-public-methods
+class PrecicionManip(Manip):
 
     _prec_handler_class: Type[PrecisionHandler] = DefaultPrecision
     _prec_handler: PrecisionHandler = _prec_handler_class(6)
@@ -39,10 +40,21 @@ class PrecicionManip(Manip):  # pylint: disable=too-few-public-methods
         self.precision(prec)
 
 
+class IntManip(Manip):
+    # _int_handler_class = Type[BaseHandler] = DecHandler
+    _int_handler: BaseHandler = DecHandler()
+
+    def _proccess(self, value: int) -> Text:
+        return self._int_handler.handle(value)
+
+    def _set_int_handler(self, handler: BaseHandler) -> None:
+        self._int_handler = handler
+
+
 # TODO: Fill deverá herdar de Quoted, e a chamada ao processamento
 #       de Quoted deverá ser feito primeiro, através da chamada ao
 #       método da classe base.
-class FillManipulator(Manip):  # pylint: disable=too-few-public-methods
+class FillManipulator(Manip):
 
     width_: int = 0
     fill_: Text = ' '

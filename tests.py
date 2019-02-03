@@ -3,7 +3,7 @@ import unittest
 from io import StringIO
 
 from ostream import OStream, endl, ends
-from ostream.precisions import DefaultPrecision, FixedPrecision
+from ostream.handlers import DefaultPrecision, FixedPrecision
 from iomanip import setprecision, setfill, setw
 
 

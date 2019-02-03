@@ -3,21 +3,27 @@
 Módulo que contém uma classe que simula a classe padrão ostream do C++
 """
 
-import numbers
 from sys import stdout
-from typing import Union, Callable, IO, Text, Any
+from typing import Union, Callable, IO, Text
 
-from .base_ostream import PrecicionManip, FillManipulator
+from .base_ostream import PrecicionManip, FillManipulator, IntManip
 
 
 class OStream(FillManipulator):  # pylint: disable=useless-object-inheritance
 
-    _type_dict = {
-        float: PrecicionManip(),
-        # int, bool, etc.
-    }
+    # _type_dict = {
+    #     float: PrecicionManip(),
+    #     int: IntManip(),
+    #     # bool, etc.
+    # }
 
     def __init__(self, output_stream: IO[Text] = stdout) -> None:
+        self._type_dict = {
+            float: PrecicionManip(),
+            int: IntManip(),
+            # bool, etc.
+        }
+
         self._stream = output_stream
 
     def _proccess(self, value: Text) -> Text:
@@ -53,7 +59,11 @@ class OStream(FillManipulator):  # pylint: disable=useless-object-inheritance
 
     def _set_prec_handler(self, handler_class):
         # pylint: disable=protected-access
-        return self._type_dict[float]._set_prec_handler(handler_class)
+        self._type_dict[float]._set_prec_handler(handler_class)
+
+    def _set_int_handler(self, handler):
+        # pylint: disable=protected-access
+        self._type_dict[int]._set_int_handler(handler)
 
 
 def endl(stream: OStream) -> OStream:

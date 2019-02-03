@@ -5,7 +5,8 @@
     "python.linting.enabled": true,
     "python.linting.pylintEnabled": true,
     "python.linting.pylintArgs": [
-        "--disable=missing-docstring"
+        "--disable=missing-docstring",
+        "--disable=too-few-public-methods"
     ],
 
 //Commonly Used
