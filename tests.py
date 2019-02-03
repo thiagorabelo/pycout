@@ -26,7 +26,7 @@ class TestOStream(unittest.TestCase):
 
         self.assertEqual("Olá mundo cruel!\n\0", self._get_stream_value())
 
-    def _test_numbers(self):
+    def test_numbers(self):
         # pylint: disable=pointless-statement,expression-not-assigned
         self.cout << 10 << "," << 2.0/5.0 << endl
         self.assertEqual("10,0.4\n", self._get_stream_value())
@@ -124,6 +124,9 @@ class TestFixedPrecision(unittest.TestCase):
         self.assertEqual("200.00", FixedPrecision(2).handle(value))
         self.assertEqual("200.0", FixedPrecision(1).handle(value))
         self.assertEqual("200", FixedPrecision(0).handle(value))
+
+
+# TODO: Fazer os testes para os manip dec e hex_, bem como para seus handlers.
 
 
 if __name__ == '__main__':
