@@ -1,5 +1,4 @@
 import abc
-import math
 from typing import Text, Any
 
 class BaseHandler(metaclass=abc.ABCMeta):
@@ -18,7 +17,9 @@ class HexHandler(BaseHandler):
         self._prefix = prefix
 
     def handle(self, value: int) -> Text:
-        value = hex(value)
         if not self._prefix:
-            return value[2:]
-        return value
+            if value >= 0:
+                return hex(value)[2:]
+            return f'-{hex(value)[3:]}'
+
+        return hex(value)
